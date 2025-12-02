@@ -1,4 +1,4 @@
-# AWS Security Automation Project — Portfolio by Seowon
+# AWS Security Automation Project
 
 > **AWS 기반 실시간 보안 탐지 · 알림 · 자동대응(SOAR) 시스템 구축 프로젝트에서  
 > 제가 직접 설계하고 구현한 부분만 정리한 포트폴리오 문서입니다.**
