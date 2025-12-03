@@ -62,20 +62,23 @@ AWS 환경에서 발생하는 주요 보안 이벤트를 자동으로 탐지하�
 
 # 📌 3. 전체 아키텍처 (개인 정리본)
 
-```mermaid
 flowchart TD
 
-A[CloudTrail] --> B(EventBridge Rules)
-B --> C1[Detection Lambda]
-C1 --> D1[DynamoDB - State Table]
-C1 --> D2[DynamoDB - Connection IDs]
+A[CloudTrail / VPC Flow / Config / Scanner Logs] --> B(EventBridge Rules)
 
-C1 -->|Incident JSON| E[API Gateway WebSocket]
-E --> F[Security Dashboard]
+B --> C1[Detection Lambda Functions]
+C1 --> D1[DynamoDB - State Table (Sliding Window + Idempotency)]
+C1 --> D2[DynamoDB - WebSocket Connections]
 
-C1 -->|Auto Remediation| G[Remediation Lambda]
-G --> H1[Modify Security Group]
-G --> H2[Save Logs to S3]
+%% Real-time Alert Path
+C1 -->|Structured Incident JSON| E[API Gateway WebSocket]
+E --> F[Real-Time Security Dashboard]
+
+%% Auto Remediation Path
+C1 -->|Trigger Action| G[Remediation Lambda Functions]
+G --> H1[Modify Security Group (Quarantine)]
+G --> H2[Block HTTP / Ingress Rules]
+G --> H3[Archive Logs to S3]
 
 ---
 
